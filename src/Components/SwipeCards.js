@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import TinderCard from 'react-tinder-card';
+import StarRatings from 'react-star-ratings';
 
 
 const SwipeCards = (props) => {
@@ -8,7 +9,7 @@ const SwipeCards = (props) => {
     return {
       name: props.grocery[x]['title'], 
       url: props.grocery[x]['image'],
-      review: props.grocery[x]['reviews.rating'],
+      ratings: props.grocery[x]['reviews.rating'],
       savings: props.grocery[x]['price.savings_amount']
     }
   });
@@ -98,6 +99,14 @@ const SwipeCards = (props) => {
       </div>
 
       {JSON.stringify(currentData)}
+      <div>
+        <StarRatings
+          rating={currentData.ratings}
+          starDimension="20px"
+          starRatedColor='rgb(255,215,0)'
+          starSpacing="2px"
+        />
+      </div>
       <div className='buttons'>
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
