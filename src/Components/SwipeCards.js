@@ -1,34 +1,22 @@
 import React, { useState, useMemo, useRef } from 'react';
 import TinderCard from 'react-tinder-card';
 
-const db = [
-  {
-    name: 'Richard Hendricks',
-    url: './img/81NrftYFxsL._AC_UL320_.jpg'
-  },
-  {
-    name: 'Erlich Bachman',
-    url: './img/81NrftYFxsL._AC_UL320_.jpg'
-  },
-  {
-    name: 'Monica Hall',
-    url: './img/81NrftYFxsL._AC_UL320_.jpg'
-  },
-  {
-    name: 'Jared Dunn',
-    url: './img/81NrftYFxsL._AC_UL320_.jpg'
-  },
-  {
-    name: 'Dinesh Chugtai',
-    url: './img/81NrftYFxsL._AC_UL320_.jpg'
-  }
-];
 
-const SwipeCards = () => {
-  const [currentIndex, setCurrentIndex] = useState(db.length - 1)
-  const [lastDirection, setLastDirection] = useState()
+const SwipeCards = (props) => {
+  const asins = Object.keys(props.grocery);
+  const db = asins.map(x => {
+    return {
+      name: props.grocery[x]['title'], 
+      url: props.grocery[x]['image'],
+      review: props.grocery[x]['reviews.rating'],
+      savings: props.grocery[x]['price.savings_amount']
+    }
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(db.length - 1);
+  const [lastDirection, setLastDirection] = useState();
   // used for outOfFrame closure
-  const currentIndexRef = useRef(currentIndex)
+  const currentIndexRef = useRef(currentIndex);
 
   const childRefs = useMemo(
     () =>
@@ -36,7 +24,9 @@ const SwipeCards = () => {
         .fill(0)
         .map((i) => React.createRef()),
     []
-  )
+  );
+
+  const currentData = db[currentIndex];
 
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val)
@@ -68,6 +58,7 @@ const SwipeCards = () => {
     }
   }
 
+
   // increase current index and show card
   const goBack = async () => {
     if (!canGoBack) return
@@ -86,7 +77,7 @@ const SwipeCards = () => {
         href='https://fonts.googleapis.com/css?family=Alatsi&display=swap'
         rel='stylesheet'
       />
-      <h1>Swipe Cart</h1>
+      <h1 className="heading" >Swipe Cart</h1>
       <div className='cardContainer'>
         {db.map((character, index) => (
           <TinderCard
@@ -95,20 +86,22 @@ const SwipeCards = () => {
             key={character.name}
             onSwipe={(dir) => swiped(dir, character.name, index)}
             onCardLeftScreen={() => outOfFrame(character.name, index)}
+            key={index}
           >
             <div
               style={{ backgroundImage: 'url(' + character.url + ')' }}
               className='card'
             >
-              <h3>{character.name}</h3>
             </div>
           </TinderCard>
         ))}
       </div>
+
+      {JSON.stringify(currentData)}
       <div className='buttons'>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Swipe left!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Swipe right!</button>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Add to Cart</button>
       </div>
       {lastDirection ? (
         <h2 key={lastDirection} className='infoText'>
