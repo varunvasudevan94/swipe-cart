@@ -98,14 +98,16 @@ const SwipeCards = (props) => {
         ))}
       </div>
 
-      {JSON.stringify(currentData)}
       <div>
+        {currentData.name} <br/>
+        Savings: Rs. {currentData.savings} <br/>
         <StarRatings
           rating={currentData.ratings}
           starDimension="20px"
           starRatedColor='rgb(255,215,0)'
           starSpacing="2px"
         />
+        
       </div>
       <div className='buttons'>
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
