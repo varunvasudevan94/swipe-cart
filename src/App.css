@@ -6,7 +6,7 @@
   min-height: 100vh;
   overflow: hidden;
   /* background: linear-gradient(#fff, #999); */
-  background: linear-gradient(#e66465, #9198e5);
+  background: linear-gradient(rgb(61, 47, 47), #cea651);
 }
 
 #root>div {
@@ -16,12 +16,6 @@
   align-items: center;
 }
 
-.app>div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
 .row {
   flex-direction: row !important;
@@ -43,13 +37,14 @@ h2 {
 
 .swipe {
   position: absolute;
-  margin-left: 20%;
+  max-width: fit-content;
 }
 
 .cardContainer {
   width: 90vw;
   max-width: 260px;
   height: 300px;
+  margin:auto;
 }
 
 .card {
@@ -79,7 +74,7 @@ h2 {
 }
 
 .heading {
-  margin-left: 5%;
+  
 }
 
 .card h3 {
@@ -121,6 +116,11 @@ h2 {
 
 .buttons button:hover {
   transform: scale(1.05);
+}
+
+.long-text {
+  word-wrap: break-word;
+  max-width: fit-content;
 }
 
 @keyframes popup {

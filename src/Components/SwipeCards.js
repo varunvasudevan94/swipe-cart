@@ -94,35 +94,37 @@ const SwipeCards = (props) => {
         rel='stylesheet'
       />
       <h1 className="heading" >Swipe Cart</h1>
-      <div className='cardContainer'>
-        {db.map((character, index) => (
-          <TinderCard
-            ref={childRefs[index]}
-            className='swipe'
-            key={character.name}
-            onSwipe={(dir) => swiped(dir, character.asin, index)}
-            onCardLeftScreen={() => outOfFrame(character.name, index)}
-            key={index}
-          >
-            <div
-              style={{ backgroundImage: 'url(' + character.url + ')' }}
-              className='card'
+      <div className="cardContents">
+        <div className='cardContainer'>
+          {db.map((character, index) => (
+            <TinderCard
+              ref={childRefs[index]}
+              className='swipe'
+              key={character.name}
+              onSwipe={(dir) => swiped(dir, character.asin, index)}
+              onCardLeftScreen={() => outOfFrame(character.name, index)}
+              key={index}
             >
-            </div>
-          </TinderCard>
-        ))}
-      </div>
+              <div
+                style={{ backgroundImage: 'url(' + character.url + ')' }}
+                className='card'
+              >
+              </div>
+            </TinderCard>
+          ))}
+        </div>
 
-      <div>
-        {currentData.name} <br/>
-        Savings: Rs. {currentData.savings} <br/>
-        <StarRatings
-          rating={currentData.ratings}
-          starDimension="20px"
-          starRatedColor='rgb(255,215,0)'
-          starSpacing="2px"
-        />
-      </div>
+      
+          <h2 className="long-text">{currentData.name} </h2>
+          </div>
+          Savings: Rs. {currentData.savings} <br/>
+          <StarRatings
+            rating={currentData.ratings}
+            starDimension="20px"
+            starRatedColor='rgb(255,215,0)'
+            starSpacing="2px"
+          />
+      
       <div className='buttons'>
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
