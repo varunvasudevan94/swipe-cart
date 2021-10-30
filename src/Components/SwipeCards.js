@@ -2,11 +2,20 @@ import React, { useState, useMemo, useRef } from 'react';
 import TinderCard from 'react-tinder-card';
 import StarRatings from 'react-star-ratings';
 
+const addToCart = (selected) => {
+  const appendString = selected.map((asin, index) => `ASIN.${index}=${asin}&Quantity.${index}=1`);
+  const URL = "https://www.amazon.in/gp/aws/cart/add.html?AssociateTag=swipecart09-21"
+  const url_parts = [URL, ...appendString];
+  const url = url_parts.join("&");
+  return url;
+}
+
 
 const SwipeCards = (props) => {
   const asins = Object.keys(props.grocery);
   const db = asins.map(x => {
     return {
+      asin: x,
       name: props.grocery[x]['title'], 
       url: props.grocery[x]['image'],
       ratings: props.grocery[x]['reviews.rating'],
@@ -16,8 +25,10 @@ const SwipeCards = (props) => {
 
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);
   const [lastDirection, setLastDirection] = useState();
-  // used for outOfFrame closure
+  const [currentUrl, setCurrentUrl] = useState("");
+  // used for outOfFrame closure  
   const currentIndexRef = useRef(currentIndex);
+  const selectedASINs = useRef([]);
 
   const childRefs = useMemo(
     () =>
@@ -30,18 +41,23 @@ const SwipeCards = (props) => {
   const currentData = db[currentIndex];
 
   const updateCurrentIndex = (val) => {
-    setCurrentIndex(val)
-    currentIndexRef.current = val
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
   }
 
-  const canGoBack = currentIndex < db.length - 1
+  const canGoBack = currentIndex < db.length - 1;
 
-  const canSwipe = currentIndex >= 0
+  const canSwipe = currentIndex >= 0;
 
   // set last direction and decrease current index
-  const swiped = (direction, nameToDelete, index) => {
-    setLastDirection(direction)
-    updateCurrentIndex(index - 1)
+  const swiped = (direction, asin, index) => {
+    if (direction === 'right') {
+      selectedASINs.current = [...selectedASINs.current, asin];
+      const url1 = addToCart(selectedASINs.current);
+      setCurrentUrl(url1);
+    }
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
   }
 
   const outOfFrame = (name, idx) => {
@@ -58,7 +74,6 @@ const SwipeCards = (props) => {
       await childRefs[currentIndex].current.swipe(dir) // Swipe the card!
     }
   }
-
 
   // increase current index and show card
   const goBack = async () => {
@@ -85,7 +100,7 @@ const SwipeCards = (props) => {
             ref={childRefs[index]}
             className='swipe'
             key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name, index)}
+            onSwipe={(dir) => swiped(dir, character.asin, index)}
             onCardLeftScreen={() => outOfFrame(character.name, index)}
             key={index}
           >
@@ -107,12 +122,14 @@ const SwipeCards = (props) => {
           starRatedColor='rgb(255,215,0)'
           starSpacing="2px"
         />
-        
       </div>
       <div className='buttons'>
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
         <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
         <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Add to Cart</button>
+      </div>
+      <div className='buttons'>
+        <button style={{ backgroundColor: !canSwipe && '#c3c4d3', width: '100%' }} onClick={() => window.open(currentUrl, "_blank")}>Add to Cart</button>
       </div>
       {lastDirection ? (
         <h2 key={lastDirection} className='infoText'>
