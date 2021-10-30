@@ -114,7 +114,7 @@ const SwipeCards = (props) => {
           ))}
         </div>
         <div className="meta-content">
-          <h3 className="long-text">{currentData.name} </h3>
+          <h3 className="long-text">{currentData.name}</h3>
           <h4>Savings: Rs. {currentData.savings}</h4>
           <StarRatings
             rating={currentData.ratings}
