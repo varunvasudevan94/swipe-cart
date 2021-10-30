@@ -125,11 +125,13 @@ const SwipeCards = (props) => {
 
           <div className='buttons'>
             <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
-            <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
-            <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Add to Cart</button>
+            <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo</button>
+            <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Add</button>
           </div>
           <div className='buttons'>
-            <button style={{ backgroundColor: !canSwipe && '#c3c4d3', width: '100%' }} onClick={() => window.open(currentUrl, "_blank")}>Add to Cart</button>
+            <button style={{ backgroundColor: !canSwipe && '#c3c4d3', width: '100%' }} onClick={() => window.open(currentUrl, "_blank")}>
+              Generate Cart
+            </button>
           </div>
         </div>
       </div>
