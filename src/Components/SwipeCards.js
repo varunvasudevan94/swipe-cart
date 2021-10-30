@@ -84,7 +84,7 @@ const SwipeCards = (props) => {
   }
 
   return (
-    <div>
+    <div  className="main-div">
       <link
         href='https://fonts.googleapis.com/css?family=Damion&display=swap'
         rel='stylesheet'
@@ -113,10 +113,8 @@ const SwipeCards = (props) => {
             </TinderCard>
           ))}
         </div>
-
-      
-          <h2 className="long-text">{currentData.name} </h2>
-          </div>
+        <div className="meta-content">
+          <h3 className="long-text">{currentData.name} </h3>
           Savings: Rs. {currentData.savings} <br/>
           <StarRatings
             rating={currentData.ratings}
@@ -124,15 +122,20 @@ const SwipeCards = (props) => {
             starRatedColor='rgb(255,215,0)'
             starSpacing="2px"
           />
+
+          <div className='buttons'>
+            <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
+            <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
+            <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Add to Cart</button>
+          </div>
+          <div className='buttons'>
+            <button style={{ backgroundColor: !canSwipe && '#c3c4d3', width: '100%' }} onClick={() => window.open(currentUrl, "_blank")}>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+          
       
-      <div className='buttons'>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('left')}>Reject</button>
-        <button style={{ backgroundColor: !canGoBack && '#c3c4d3' }} onClick={() => goBack()}>Undo swipe!</button>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3' }} onClick={() => swipe('right')}>Add to Cart</button>
-      </div>
-      <div className='buttons'>
-        <button style={{ backgroundColor: !canSwipe && '#c3c4d3', width: '100%' }} onClick={() => window.open(currentUrl, "_blank")}>Add to Cart</button>
-      </div>
+      
       {lastDirection ? (
         <h2 key={lastDirection} className='infoText'>
           You swiped {lastDirection}
