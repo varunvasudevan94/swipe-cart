@@ -136,8 +136,6 @@ const SwipeCards = (props) => {
         </div>
       </div>
           
-      
-      
       {lastDirection ? (
         <h2 key={lastDirection} className='infoText'>
           You swiped {lastDirection}
