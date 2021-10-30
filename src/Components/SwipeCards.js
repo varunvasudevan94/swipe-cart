@@ -35,7 +35,7 @@ const SwipeCards = (props) => {
       Array(db.length)
         .fill(0)
         .map((i) => React.createRef()),
-    []
+    [db.length]
   );
 
   const currentData = db[currentIndex];
